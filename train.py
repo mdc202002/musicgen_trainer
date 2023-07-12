@@ -114,6 +114,7 @@ def train(
     warmup_steps: int = 10,
     batch_size: int = 10,
     use_cfg: bool = False
+    save_path: string = "models/"
 ):
     if use_wandb:
         run = wandb.init(project="audiocraft")
@@ -158,7 +159,7 @@ def train(
     save_step = save_step
     save_models = False if save_step is None else True
 
-    save_path = "models/"
+    # save_path = "models/"
 
     os.makedirs(save_path, exist_ok=True)
 
