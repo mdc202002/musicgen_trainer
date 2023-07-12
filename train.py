@@ -119,11 +119,15 @@ def train(
     if use_wandb:
         run = wandb.init(project="audiocraft")
 
-    model = MusicGen.get_pretrained(model_id)
-    model.lm = model.lm.to(torch.float32)  # important
+    model = MusicGen.get_pretrained("melody", device='cuda')
+    model.set_generation_params(duration=10)
+    print(model_id)
 
     if model_id not in ["small", "medium", "large", "melody"]:
         model.lm.load_state_dict(torch.load(model_id))
+    else:
+        model = MusicGen.get_pretrained(model_id)
+        model.lm = model.lm.to(torch.float32)  # important
             
     dataset = AudioDataset(dataset_path, no_label=no_label)
     train_dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
