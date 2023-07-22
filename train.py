@@ -121,7 +121,7 @@ def train(
         
     print(f"model_id: {model_id}")
 
-    model = MusicGen.get_pretrained("medium", device='cuda')
+    model = MusicGen.get_pretrained("melody", device='cuda')
     # if model_id not in ["small", "medium", "large", "melody"]:
     print("swapping model.lm for loaded model")
     model.lm.load_state_dict(torch.load(model_id))
