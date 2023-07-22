@@ -123,8 +123,8 @@ def train(
 
     model = MusicGen.get_pretrained("melody", device='cuda')
     # if model_id not in ["small", "medium", "large", "melody"]:
-    print("swapping model.lm for loaded model")
-    model.lm.load_state_dict(torch.load(model_id))
+    # print("swapping model.lm for loaded model")
+    # model.lm.load_state_dict(torch.load(model_id))
 
     model.lm = model.lm.to(torch.float32)  # important
     dataset = AudioDataset(dataset_path, no_label=no_label)
