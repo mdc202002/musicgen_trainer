@@ -105,14 +105,14 @@ def train(
     lr: float,
     epochs: int,
     use_wandb: bool,
-    no_label: bool = False,
+    no_label: bool = True,
     tune_text: bool = False,
     save_step: int = None,
-    grad_acc: int = 8,
+    grad_acc: int = 10,
     use_scaler: bool = False,
     weight_decay: float = 1e-5,
     warmup_steps: int = 10,
-    batch_size: int = 10,
+    batch_size: int = 12,
     use_cfg: bool = False,
     save_path: str = "models/",
 ):
@@ -121,7 +121,7 @@ def train(
         
     print(f"model_id: {model_id}")
 
-    model = MusicGen.get_pretrained("melody", device='cuda')
+    model = MusicGen.get_pretrained("small", device='cuda')
     # if model_id not in ["small", "medium", "large", "melody"]:
     # print("swapping model.lm for loaded model")
     # model.lm.load_state_dict(torch.load(model_id))
@@ -175,7 +175,7 @@ def train(
             optimizer.zero_grad()
 
             all_codes = []
-            texts = []
+            texts = ""
 
             # where audio and label are just paths
             for inner_audio, l in zip(audio, label):
@@ -189,7 +189,6 @@ def train(
                     codes = inner_audio
 
                 all_codes.append(codes)
-                texts.append(open(l, "r").read().strip())
 
             attributes, _ = model._prepare_tokens_and_attributes(texts, None)
             conditions = attributes
